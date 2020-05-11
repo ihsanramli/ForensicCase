@@ -39,11 +39,12 @@ namespace ForensicCase
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            app.UseAuthentication();
 
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

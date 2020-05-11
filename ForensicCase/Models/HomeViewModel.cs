@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ForensicCase.Models
 {
-    public class UserViewModel
+    public class HomeViewModel
     {
-        public DataTable Users { get; set; }
+        public DataTable Flowers { get; set; }
         public string Search { get; set; }
     }
 

@@ -1,50 +1,61 @@
-﻿@model ForensicCase.Models.UserViewModel
+﻿@model ForensicCase.Models.HomeViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-@if (Model.Users == null)
+<form asp-action="Index" method="get" class="form-inline">
+    <div class="form-group mx-sm-3 mb-2">
+        <label for="search" class="sr-only">Search</label>
+        <input type="text" class="form-control" id="search" name="search" placeholder="Search">
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">Search</button>
+</form>
+@if (Model == null)
 {
     <p>
         No Data!
     </p>
 }
-
-@if (Model.Users != null)
+else
 {
-    var dt = Model.Users as System.Data.DataTable;
-    <table class="table">
-        <thead>
-            <tr>
-                @foreach (System.Data.DataColumn col in dt.Columns)
+    @if (Model.Flowers != null)
+    {
+        var dt = Model.Flowers as System.Data.DataTable;
+        <table class="table">
+            <thead>
+                <tr>
+                    @foreach (System.Data.DataColumn col in dt.Columns)
+                    {
+                        <th>@col.ColumnName</th>
+                    }
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (System.Data.DataRow dr in dt.Rows)
                 {
-                    <th>@col.ColumnName</th>
+                    <tr>
+                        @foreach (System.Data.DataColumn col in dt.Columns)
+                        {
+                            if (col.DataType.FullName == "System.Byte[]")
+                            {
+                                <td><img src="data:image;base64,@System.Convert.ToBase64String((byte[])dr[col.ColumnName])" width="80" height="80" /></td>
+
+                            }
+                            else
+                            {
+                                <td>@dr[col.ColumnName].ToString()</td>
+                            }
+
+                        }
+                    </tr>
                 }
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (System.Data.DataRow dr in dt.Rows)
-            {
-            <tr>
-                @foreach (System.Data.DataColumn col in dt.Columns)
-                {
-                    <td>@dr[col.ColumnName].ToString()</td>
-                }
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    }
 }
+
+
 
