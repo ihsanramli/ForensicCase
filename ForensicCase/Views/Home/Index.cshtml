@@ -1,0 +1,50 @@
+﻿@model ForensicCase.Models.UserViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+@if (Model.Users == null)
+{
+    <p>
+        No Data!
+    </p>
+}
+
+@if (Model.Users != null)
+{
+    var dt = Model.Users as System.Data.DataTable;
+    <table class="table">
+        <thead>
+            <tr>
+                @foreach (System.Data.DataColumn col in dt.Columns)
+                {
+                    <th>@col.ColumnName</th>
+                }
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (System.Data.DataRow dr in dt.Rows)
+            {
+            <tr>
+                @foreach (System.Data.DataColumn col in dt.Columns)
+                {
+                    <td>@dr[col.ColumnName].ToString()</td>
+                }
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
